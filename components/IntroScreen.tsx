@@ -49,7 +49,7 @@ const IntroScreen: React.FC<IntroScreenProps> = ({ onEnter }) => {
         
         {/* Sub title */}
         <div className="text-cyber-primary/70 text-sm md:text-lg mb-12 tracking-[0.4em] uppercase font-rajdhani font-semibold">
-          Computer Science Engineer // software Developer
+          Computer Science Engineer // Software Developer
         </div>
 
         <div className="w-64 md:w-96 h-1 bg-white/10 rounded-full mx-auto relative overflow-hidden mb-6">

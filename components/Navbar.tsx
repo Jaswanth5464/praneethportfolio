@@ -24,7 +24,7 @@ const Navbar: React.FC = () => {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom >= 100) {
+          if (rect.top <= 150 && rect.bottom >= 150) {
             setActiveSection(section);
             break;
           }
@@ -41,7 +41,7 @@ const Navbar: React.FC = () => {
     const element = document.getElementById(targetId);
     if (element) {
       window.scrollTo({
-        top: element.offsetTop - 70,
+        top: element.offsetTop - 80,
         behavior: 'smooth'
       });
     }
@@ -52,31 +52,30 @@ const Navbar: React.FC = () => {
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       className={`fixed top-0 left-0 w-full z-[150] transition-all duration-300 ${
-        scrolled ? 'bg-black/90 backdrop-blur-md py-1.5' : 'bg-black/20 py-3'
+        scrolled ? 'bg-black/90 backdrop-blur-md py-2' : 'bg-black/20 py-4'
       }`}
     >
-      <div className="max-w-[1600px] mx-auto px-6 flex items-center justify-between">
+      <div className="max-w-[1600px] mx-auto px-4 md:px-6 flex items-center justify-between gap-4">
         
-        {/* HUD Left: Branding */}
-        <div className="flex-1 flex items-center gap-4">
+        {/* HUD Left: Branding - Smaller on mobile */}
+        <div className="flex-shrink-0">
           <a
             href="#home"
             onClick={(e) => handleClick(e, '#home')}
-            className="flex items-center gap-3 group"
+            className="flex items-center gap-2 group"
           >
-            <div className="w-6 h-6 border border-cyber-primary rotate-45 flex items-center justify-center group-hover:bg-cyber-primary transition-all duration-300">
-              <span className="text-[8px] -rotate-45 group-hover:text-black font-bold font-orbitron text-cyber-primary">PR</span>
+            <div className="w-5 h-5 md:w-6 md:h-6 border border-cyber-primary rotate-45 flex items-center justify-center group-hover:bg-cyber-primary transition-all duration-300">
+              <span className="text-[7px] md:text-[8px] -rotate-45 group-hover:text-black font-bold font-orbitron text-cyber-primary">PR</span>
             </div>
-            <div className="flex flex-col">
-              <span className="text-[10px] font-orbitron font-bold tracking-[0.2em] neon-text hidden sm:block">T. PRANEETH</span>
-              <span className="text-[7px] font-mono text-gray-500 tracking-tighter opacity-60 hidden lg:block uppercase">SYSTEM_READY</span>
+            <div className="hidden sm:flex flex-col">
+              <span className="text-[9px] md:text-[10px] font-orbitron font-bold tracking-[0.1em] md:tracking-[0.2em] neon-text">T. PRANEETH</span>
             </div>
           </a>
         </div>
 
-        {/* HUD Center: Navigation Links */}
-        <div className="flex-[3] flex justify-center">
-          <div className="flex items-center bg-white/5 px-2 py-1 rounded-full border border-white/5 backdrop-blur-sm">
+        {/* HUD Center: Navigation Links - Horizontal scrollable on mobile */}
+        <div className="flex-grow overflow-x-auto no-scrollbar scroll-smooth">
+          <div className="flex items-center bg-white/5 p-1 rounded-full border border-white/5 backdrop-blur-sm min-w-max mx-auto sm:min-w-0 sm:w-fit">
             {navLinks.map((link) => {
               const isActive = activeSection === link.name.toLowerCase();
               return (
@@ -84,11 +83,11 @@ const Navbar: React.FC = () => {
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleClick(e, link.href)}
-                  className={`relative px-3 md:px-4 py-1 rounded-full font-orbitron text-[8px] md:text-[9px] lg:text-[10px] tracking-[0.15em] md:tracking-[0.2em] transition-all duration-300 ${
+                  className={`relative px-2.5 md:px-4 py-1 rounded-full font-orbitron text-[8px] md:text-[10px] tracking-[0.1em] md:tracking-[0.2em] transition-all duration-300 ${
                     isActive ? 'text-black font-bold' : 'text-gray-400 hover:text-white'
                   }`}
                 >
-                  <span className="relative z-10">{link.name}</span>
+                  <span className="relative z-10 whitespace-nowrap">{link.name}</span>
                   {isActive && (
                     <motion.div
                       layoutId="activeNavHUD"
@@ -102,15 +101,25 @@ const Navbar: React.FC = () => {
           </div>
         </div>
 
-        {/* HUD Right: Status */}
-        <div className="flex-1 flex items-center justify-end gap-6 text-cyber-primary font-mono text-[9px] tracking-widest">
+        {/* HUD Right: Status - Hidden on extra small screens */}
+        <div className="hidden lg:flex items-center justify-end gap-4 text-cyber-primary font-mono text-[9px] tracking-widest flex-shrink-0">
           <div className="flex items-center gap-2">
-            <span className="opacity-40 hidden md:inline">SYS:</span>
-            <span className="animate-pulse">ACTIVE</span>
+            <span className="opacity-40">SYS:</span>
+            <span className="animate-pulse uppercase">Active</span>
             <div className="w-1.5 h-1.5 rounded-full bg-cyber-primary shadow-[0_0_8px_rgba(0,242,255,1)]" />
           </div>
         </div>
       </div>
+      
+      {/* Scroll indicator for mobile nav */}
+      <div className="sm:hidden w-full overflow-hidden h-[1px] bg-white/5">
+        <div className="h-full bg-cyber-primary/20 w-1/3 animate-scanline" />
+      </div>
+
+      <style>{`
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
     </motion.nav>
   );
 };
